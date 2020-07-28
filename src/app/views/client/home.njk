@@ -1,0 +1,27 @@
+{% extends "client/layout.njk" %}
+
+
+{% block content %}
+
+        <div class="intro">
+            <div>
+                <h1>As melhores receitas</h1>
+                <p>Aprenda a construir os melhores pratos com receitas criadas por profissionais do mundo inteiro.</p>
+            </div>
+            <img src="assets/chef.png" alt="chef">
+        </div>
+    
+        <div class="maisAcessadas">
+            <h2>Mais acessadas</h2>
+            <section class="recipes">
+                {% for recipe in items %}
+                    <div class="recipe" id="{{ loop.index0 }}">
+                        <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+                        <h3>{{ recipe.title }}</h3>
+                        <p>por {{ recipe.author }}</p>
+                    </div>
+                {% endfor %}
+            </section>
+        </div>
+        
+{% endblock %}    
