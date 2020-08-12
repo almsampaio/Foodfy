@@ -36,6 +36,7 @@
                     name="ingredients[]" 
                     value="" 
                     placeholder="Ingrediente">
+                    <button type="button" class="material-icons">clear</button>
             </div>
         {% else %}
             {% for ingredient in recipe.ingredients %}
@@ -45,6 +46,7 @@
                         name="ingredients[]" 
                         value="{{ ingredient }}" 
                         placeholder="Ingrediente">
+                    <button type="button" class="material-icons">clear</button>
                 </div>
             {% endfor %}
         {% endif %}
@@ -59,11 +61,12 @@
 
         {% if recipe.preparation == null %}
             <div class="preparation-step">
-                    <input 
-                        type="text" 
-                        name="preparation[]" 
-                        value="" 
-                        placeholder="Novo passo">
+                <input 
+                    type="text" 
+                    name="preparation[]" 
+                    value="" 
+                    placeholder="Novo passo">
+                <button type="button" class="material-icons">clear</button>
             </div>
         {% else %}
             {% for step in recipe.preparation %}
@@ -73,6 +76,7 @@
                         name="preparation[]" 
                         value="{{ step }}" 
                         placeholder="Novo passo">
+                    <button type="button" class="material-icons">clear</button>
                 </div>
             {% endfor %}
         {% endif %}

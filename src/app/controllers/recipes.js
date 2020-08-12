@@ -41,14 +41,17 @@ module.exports = {
         let id = 1
         if (data.recipes.length != 0) 
             id = data.recipes[data.recipes.length - 1].id + 1
-    
+
+        const filteredIngredients = ingredients.filter(ingredient => ingredient != "" )
+        const filteredPreparation = req.body.preparation.filter(step => step != "" )
+        
         data.recipes.push({
             id,
             author, 
             title, 
             image,
-            ingredients, 
-            preparation, 
+            ingredients: filteredIngredients, 
+            preparation: filteredPreparation, 
             information
         }) 
         
@@ -70,9 +73,14 @@ module.exports = {
     
         if ( !foundRecipe ) return res.send("Recipe not found!")
     
+        const filteredIngredients = req.body.ingredients.filter(ingredient => ingredient != "" )
+        const filteredPreparation = req.body.preparation.filter(step => step != "" )
+
         const recipe = {
             ...foundRecipe,
             ...req.body,
+            ingredients: filteredIngredients,
+            preparation: filteredPreparation,
             id: Number(req.body.id)
         }
     

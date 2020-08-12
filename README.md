@@ -44,6 +44,6 @@
 ## Tarefas em aberto
 * **Responsividade**
 * Refatorar as funções do arquivo **scripts.js**
-* Edição de Ingredientes/Passos: eliminar itens vazios e permitir exclusão de itens
+* Edição de Ingredientes/Passos: decorar melhor o clear icon
 
 ## Licença
