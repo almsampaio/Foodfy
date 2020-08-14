@@ -1,6 +1,7 @@
 const express = require('express')
 const routes = express.Router() 
-const admin = require('./app/controllers/recipes')
+const recipesController = require('./app/controllers/recipes')
+const chefsController = require('./app/controllers/chefs')
 
 const data = require('../data.json')
 const recipes = data.recipes
@@ -20,13 +21,25 @@ routes.get("/recipes/:index", function(req, res) {
     return res.render("client/description", { recipe: recipes[req.params.index] })
 })
 
-routes.get("/admin/recipes", admin.index); // Mostrar a lista de receitas
-routes.get("/admin/recipes/create", admin.create); // Mostrar formulário de nova receita
-routes.get("/admin/recipes/:id", admin.show); // Exibir detalhes de uma receita
-routes.get("/admin/recipes/:id/edit", admin.edit); // Mostrar formulário de edição de receita
+// RECIPES
+routes.get("/admin/recipes", recipesController.index)
+routes.get("/admin/recipes/create", recipesController.create)
+routes.get("/admin/recipes/:id", recipesController.show)
+routes.get("/admin/recipes/:id/edit", recipesController.edit)
 
-routes.post("/admin/recipes", admin.post); // Cadastrar nova receita
-routes.put("/admin/recipes", admin.put); // Editar uma receita
-routes.delete("/admin/recipes", admin.delete); // Deletar uma receita
+routes.post("/admin/recipes", recipesController.post) 
+routes.put("/admin/recipes", recipesController.put) 
+routes.delete("/admin/recipes", recipesController.delete) 
+
+// CHEFS
+routes.get("/admin/chefs", chefsController.index)
+routes.get("/admin/chefs/create", chefsController.create)
+routes.get("/admin/chefs/:id", chefsController.show) 
+routes.get("/admin/chefs/:id/edit", chefsController.edit)
+
+routes.post("/admin/chefs", chefsController.post)
+routes.put("/admin/chefs", chefsController.put)
+routes.delete("/admin/chefs", chefsController.delete) 
+
 
 module.exports = routes

@@ -54,7 +54,7 @@ function addIngredient() {
     // Deixa o valor do input vazio
     newField.children[0].value = ""
     
-    //newField.children[1].addEventListener("click", deleteHandler)
+    newField.children[1].addEventListener("click", deleteHandler)
     
     ingredients.appendChild(newField)
 }

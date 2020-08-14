@@ -1,58 +1,6 @@
 {
   "recipes": [
     {
-      "id": 3,
-      "author": "Mestre Cuca2",
-      "title": "Gororobinha",
-      "image": "https://images.unsplash.com/photo-1556694795-b6423d3d5b28?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
-      "ingredients": [
-        "Folha"
-      ],
-      "preparation": [
-        "Mexe"
-      ],
-      "information": "Mexe bem"
-    },
-    {
-      "id": 4,
-      "author": "Mestre Cuca2",
-      "title": "Gororobinha",
-      "image": "https://images.unsplash.com/photo-1556694795-b6423d3d5b28?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
-      "ingredients": [
-        "Folha"
-      ],
-      "preparation": [
-        "Mexe"
-      ],
-      "information": "Mexe bem"
-    },
-    {
-      "id": 5,
-      "author": "Um verdadeiro maluco",
-      "title": "Doidona",
-      "image": "https://images.unsplash.com/photo-1556694795-b6423d3d5b28?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
-      "ingredients": [
-        "Folha"
-      ],
-      "preparation": [
-        "Bota tudo num balde e balança"
-      ],
-      "information": "Salzin no final"
-    },
-    {
-      "id": 6,
-      "author": "Um verdadeiro maluco",
-      "title": "Doidona",
-      "image": "https://images.unsplash.com/photo-1556694795-b6423d3d5b28?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
-      "ingredients": [
-        "Pão"
-      ],
-      "preparation": [
-        "Mexe"
-      ],
-      "information": "Pimenta a gosto"
-    },
-    {
       "id": 7,
       "author": "Um verdadeiro maluco",
       "title": "Doidona",
