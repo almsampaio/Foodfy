@@ -1,5 +1,16 @@
-{% extends "client/layout.njk" %}
+{% extends "site/layout.njk" %}
 
+{% block filter %}
+    <form action="/recipes" method="GET">
+        <input 
+            type="text" 
+            name="filter"
+            placeholder="Buscar uma receita"
+            value={{filter}}
+        >
+        <button type="submit">Buscar</button>
+    </form>
+{% endblock %}
 
 {% block content %}
 
@@ -14,13 +25,17 @@
         <div class="maisAcessadas">
             <h2>Mais acessadas</h2>
             <section class="recipes">
-                {% for recipe in items %}
-                    <div class="recipe" id="{{ loop.index0 }}">
+                {% for recipe in recipes %}
+                    <div class="recipe" id="{{ recipe.id }}">
                         <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
                         <h3>{{ recipe.title }}</h3>
-                        <p>por {{ recipe.author }}</p>
+                        <p>por {{ recipe.chef }}</p>
                     </div>
                 {% endfor %}
+
+                <div class="recipeSectionSuport" id="">
+                    <img src="" alt="">
+                </div>
             </section>
         </div>
         

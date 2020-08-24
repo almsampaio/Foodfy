@@ -6,13 +6,14 @@
 
 {% block content %}
 
-    <section class="forms">
+    <section>
     
         <form method="POST" action="/admin/recipes?_method=PUT">
-            <div class="admin">
-                <h1 class="admin">Editando receita</h1>
+            <div class="management">
+                <h1>Editando receita</h1>
                 <button type="submit">Salvar receita</button>
             </div>
+            <input type="hidden" name="id" value="{{ recipe.id }}">
 
             {% include 'admin/recipes/fields.njk' %}
 

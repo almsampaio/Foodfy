@@ -8,11 +8,11 @@
 - [X] Criação de receitas
 - [X] Edição de receitas
 - [X] Deletar receitas
-- [ ] Banco de dados PostgreSQL
-- [ ] Cadastro, listagem e edição de Chefs
-- [ ] Receitas atribuídas a um Chef
-- [ ] Busca por receitas filtrada pelo nome
-- [ ] Paginação na página de listagem de receitas
+- [X] Banco de dados PostgreSQL
+- [X] Cadastro, listagem e edição de Chefs
+- [X] Receitas atribuídas a um Chef
+- [X] Busca por receitas filtrada pelo nome
+- [X] Paginação na página de listagem de receitas
 
 ## Descrição
 
@@ -33,17 +33,21 @@
 
 ## Database
 
-| author      | title         | image | ingredients[]          | preparation[]                            | information |
-| ----------- | ------------- | ----- | ---------------------- | ---------------------------------------- | ----------- |
-| Mestre Cuca | Prato da casa | url   | feijão, batata, cuscuz | ferver, triturar a batata, misturar tudo | sal a gosto |
+### Recipes
+| id | chef_id      | title         | image | ingredients[]          | preparation[]                            | information |
+| -- | ------------ | ------------- | ----- | ---------------------- | ---------------------------------------- | ----------- |
+| 4  | 3            | Prato da casa | url   | feijão, batata, cuscuz | ferver, triturar a batata, misturar tudo | sal a gosto |
+
+### Chefs
+| id | name         | avatar_url  |
+| -- | ------------ | ----------- |
+| 3  | Daniel Smith | https://... |
 
 ## Solução de problemas
 
 ## Contribuintes
 
 ## Tarefas em aberto
-* **Responsividade**
 * Refatorar as funções do arquivo **scripts.js**
-* Edição de Ingredientes/Passos: eliminar itens vazios e permitir exclusão de itens
 
 ## Licença

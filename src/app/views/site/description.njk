@@ -1,4 +1,4 @@
-{% extends "client/layout.njk" %}
+{% extends "site/layout.njk" %}
 
 {% block head %}
 
@@ -6,12 +6,16 @@
 
 {% endblock %}
 
+{% block filter %}
+    <div class="noFilter"></div>
+{% endblock %}
+
 {% block content %}
 
     <div class="description">
         <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
         <h1>{{ recipe.title }}</h1>
-        <p>{{ recipe.author }}</p>
+        <p> por {{ recipe.chef }}</p>
 
         <div class="topic ingredients">
             <h2>Ingredientes</h2>

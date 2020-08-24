@@ -2,22 +2,24 @@
 
 {% block content %}
 
-    <div class="admin forms">
+    <div class="management">
         <h1 class="admin">Gerenciar receitas</h1>
-        <a  href="/admin/recipes/create">Nova receita</a>
+        <button><a  href="/admin/recipes/create">Nova receita</a></button>
     </div>
 
-    <section class="recipes admin">
+    <section class="management">
 
         {% for recipe in recipes %}
-            <div class="recipe admin" id="{{ recipe.id }}">
+            <div class="management" id="{{ recipe.id }}">
                 <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
-                <h3>{{ recipe.title }}</h3>
-                <p>por {{ recipe.author }}</p>
-                <a href="/admin/recipes/{{ recipe.id }}">Visualizar</a>
+                <div>
+                    <h3>{{ recipe.title }}</h3>
+                    <p>por {{ recipe.chef }}</p>
+                    <a href="/admin/recipes/{{ recipe.id }}">Visualizar</a>
+                </div>
             </div>
         {% endfor %}
         
-        </section>
+    </section>
 
-{% endblock content %}
+{% endblock content %} 
