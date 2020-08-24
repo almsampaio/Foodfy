@@ -13,6 +13,7 @@
                 <h1>Editando receita</h1>
                 <button type="submit">Salvar receita</button>
             </div>
+            <input type="hidden" name="id" value="{{ recipe.id }}">
 
             {% include 'admin/recipes/fields.njk' %}
 

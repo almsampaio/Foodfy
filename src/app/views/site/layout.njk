@@ -19,10 +19,9 @@
             <a href="/recipes">Receitas</a>
             <a href="/chefs">Chefs</a>
         </div>
-        <form action="">
-            <input type="text" placeholder="Buscar uma receita">
-            <button type="submit">Buscar</button>
-        </form>
+        
+        {% block filter %}{% endblock %}
+
     </header>
     
     <main>
@@ -32,6 +31,8 @@
     </main>
     
     <footer>
+        {% block pagination %}{% endblock %}
+        
         <p>Todos os direitos reservados, receitas Foodfy.</p>
     </footer>
     

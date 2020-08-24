@@ -2,13 +2,10 @@
 const recipes = document.querySelectorAll('.recipe')
    
 for (let recipe of recipes) {
-    if ( !(recipe.className.includes('admin')) ) {
-        recipe.addEventListener("click", function(){
-            const index = recipe.getAttribute('id')
-            window.location.href = `/recipes/${index}`
-        })
-    }
-
+    recipe.addEventListener("click", function(){
+        const id = recipe.getAttribute('id')
+        window.location.href = `/recipes/${id}`
+    })
 }
     
 /*=== HIDE/SHOW RECIPE INFO ===*/ 
@@ -33,7 +30,7 @@ for (let content of contents) {
 const currentPage = window.location.pathname
 const menuItens = document.querySelectorAll("header a")
 
-for (item of menuItens) {
+for (let item of menuItens) {
     if (currentPage.includes(item.getAttribute('href'))) {
         item.classList.add("currentPage")
     }
@@ -87,4 +84,77 @@ if (document.querySelector(".add-ingredient")) {
 }
 if (document.querySelector(".add-preparation-step")) {
     document.querySelector(".add-preparation-step").addEventListener("click", addPreparationStep)
+}
+
+/*=== PAGINATION ===*/
+
+function paginate(selectedPage, totalPages) {
+    let pages = [], oldPage
+
+    for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
+
+        const firstAndLastPages = currentPage == 1 || currentPage == totalPages
+        const pagesAfterSelectedPage = currentPage <= selectedPage + 2
+        const pagesBeforeSelectedPage = currentPage >= selectedPage - 2
+
+        if (firstAndLastPages || pagesBeforeSelectedPage && pagesAfterSelectedPage) {
+            if (oldPage && currentPage - oldPage > 2) {
+                pages.push("...")
+            }
+            if (oldPage && currentPage - oldPage == 2) {
+                pages.push(oldPage + 1)
+            }
+            
+            pages.push(currentPage)
+
+            oldPage = currentPage
+        }
+    }
+
+    return pages
+}
+
+function createPagination(pagination) {
+    const filter = pagination.dataset.filter
+    const page = +pagination.dataset.page
+    const total = +pagination.dataset.total
+
+    const pages = paginate(page, total)
+
+    let elements = ""
+
+    for (let page of pages) {
+        if (String(page).includes("...")) {
+            elements += `<span>${page}</span>`
+        } else {
+            if (filter) {
+                elements += `<a href="?page=${page}&filter=${filter}">${page}</a>`
+            } else {
+                elements += `<a href="?page=${page}">${page}</a>`
+            }
+        }
+    }
+
+    pagination.innerHTML = elements
+}
+
+const pagination = document.querySelector(".pagination")
+
+if (pagination) {
+    createPagination(pagination)
+}
+
+/*=== CURRENT PAGE BOLD (PAGINATION) ===*/
+
+const indexOfPagination = window.location.search
+const paginationIndexes = document.querySelectorAll("div.pagination > a")
+
+for (let index of paginationIndexes) {
+    if (indexOfPagination.includes(index.innerHTML)) {
+        index.classList.add("currentPage")
+    }
+}
+
+if (!(indexOfPagination.includes("?page="))) {
+    paginationIndexes[0].classList.add("currentPage")
 }

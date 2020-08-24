@@ -1,28 +1,29 @@
     <div class="item">
         <div>Chef</div>
-        <div>
-            <div>
-                <input type="text" name="chef" value="{{ recipe.author }}">
-            </div>
-        </div>
+                <select name="chef_id">
+                    {% if recipe.chef_id %}
+                        <option selected value="{{ recipe.chef_id }}">{{ recipe.chef }}</option>
+                    {% else %}
+                        <option disabled selected >Selecione um chefe</option>
+                    {% endif %}
+                    {% for chef in chefs %}
+                        <option value="{{ chef.id }}">{{ chef.name }}</option>
+                    {% endfor %}
+                </select>
     </div>
 
     <div class="item">
         <div>Título da receita</div>
-        <div>
             <div>
                 <input type="text" name="title" value="{{ recipe.title }}">
             </div>
-        </div>
     </div>
 
     <div class="item">
         <div>Imagem da receita</div>
-        <div>
             <div>
                 <input type="url" name="image" value="{{ recipe.image }}">
             </div>
-        </div>
     </div>
 
     <div class="item">
@@ -87,11 +88,7 @@
 
     <div class="item">
         <div>Informações adicionais</div>
-        <div>
             <div class="textarea_container">
                 <textarea type="text" name="information">{{ recipe.information }}</textarea>
             </div>
-        </div>
     </div>
-
-    <input type="hidden" name="id" value="{{ recipe.id }}">

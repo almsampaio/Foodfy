@@ -1,25 +1,19 @@
 const express = require('express')
 const routes = express.Router() 
-const recipesController = require('./app/controllers/recipes')
-const chefsController = require('./app/controllers/chefs')
+const recipesController = require('./app/controllers/admin/recipes')
+const chefsController = require('./app/controllers/admin/chefs')
+const siteController = require('./app/controllers/site/site')
 
-const data = require('../data.json')
-const recipes = data.recipes
 
-routes.get("/", function(req, res) {
-    const items = recipes.slice(0, 6)
+/*=== SITE ===*/
 
-    return res.render("client/home", { items })
-})
-routes.get("/about", function(req, res) {
-    return res.render("client/about")
-})
-routes.get("/recipes", function(req, res) {
-    return res.render("client/recipes", { recipes })
-})
-routes.get("/recipes/:index", function(req, res) {
-    return res.render("client/description", { recipe: recipes[req.params.index] })
-})
+routes.get("/", siteController.home)
+routes.get("/about", siteController.about)
+routes.get("/recipes", siteController.recipesList)
+routes.get("/recipes/:id", siteController.recipeDescription)
+routes.get("/chefs", siteController.chefsList)
+
+/*=== ADMIN ===*/
 
 // RECIPES
 routes.get("/admin/recipes", recipesController.index)
