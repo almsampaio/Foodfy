@@ -9,8 +9,10 @@ module.exports = {
         const recipes = results.rows
 
         results = recipes.map(recipe => Recipe.findRecipeFiles(recipe.id))
-        const recipeFiles = await Promise.all(results)
-        // console.log(recipeFiles[0].rows)
+        const recipesFiles = await Promise.all(results)
+        recipesFiles.map((result, index) => {
+            recipes[index].image = `${req.protocol}://${req.headers.host}${result.rows[0].path.replace("public", "")}`
+        })
         
         return res.render("admin/recipes/index", { recipes })
     },
