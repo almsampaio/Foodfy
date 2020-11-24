@@ -5,8 +5,12 @@ const Chef = require('../../models/Chef')
 
 module.exports = {
     async index(req, res) {
-        const results = await Recipe.all()
+        let results = await Recipe.all()
         const recipes = results.rows
+
+        results = recipes.map(recipe => Recipe.findRecipeFiles(recipe.id))
+        const recipeFiles = await Promise.all(results)
+        // console.log(recipeFiles[0].rows)
         
         return res.render("admin/recipes/index", { recipes })
     },
@@ -31,8 +35,6 @@ module.exports = {
             })
         })
 
-        console.log(files)
-
         return res.render('admin/recipes/show', { recipe, files })
     },
     async edit(req, res) {
@@ -44,7 +46,16 @@ module.exports = {
         results = await Recipe.find(id)
         const recipe = results.rows[0]
 
-        return res.render("admin/recipes/edit", { recipe, chefs })
+        results = await Recipe.findRecipeFiles(recipe.id)
+        const files = []
+        results.rows.map(file => {
+            files.push({
+                ...file,
+                src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+            })
+        })
+
+        return res.render("admin/recipes/edit", { recipe, chefs, files })
     },
     async post(req, res) {
         const keys = Object.keys(req.body)
@@ -73,7 +84,7 @@ module.exports = {
         let results = await Recipe.create(data)
         const recipeId = results.rows[0].id
 
-        const filesPromise = req.files.map(file => File.create({...file}))
+        const filesPromise = req.files.map(file => File.create({ ...file }))
         const filesIdArray = await Promise.all(filesPromise)
 
         const recipeFilesPromise = filesIdArray.map(file => Recipe.recipeFileRelation( {recipeId, fileId: file.rows[0]['id']} ))
@@ -91,10 +102,18 @@ module.exports = {
         }
 
         if (req.files.length !== 0) {
-            const newFilesPromise = req.files.map(file => 
-                File.create({ ...file, product_id: req.body.id }) )
+            const newFilesPromise = req.files.map(file =>
+                File.create({ ...file }))
 
-            await Promise.all(newFilesPromise)
+            let results = await Promise.all(newFilesPromise)
+            const recipeFilesRelationsPromises = results.map(result => {
+                Recipe.recipeFileRelation({
+                    recipeId: Number(req.body.id),
+                    fileId: Number(result.rows[0].id),
+                })
+            })
+
+            await Promise.all(recipeFilesRelationsPromises)
         }
 
         if (req.body.removed_files) {

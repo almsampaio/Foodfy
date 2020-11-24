@@ -63,9 +63,9 @@ module.exports = {
     findRecipeFiles(recipe_id) {
         const query = `
         SELECT files.*
-        FROM recipe_files
-        JOIN files
-        ON recipe_files.file_id = files.id
+        FROM files
+        JOIN recipe_files
+        ON files.id = recipe_files.file_id
         WHERE recipe_files.recipe_id = $1;
         `
 
