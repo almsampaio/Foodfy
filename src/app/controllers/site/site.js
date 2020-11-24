@@ -1,5 +1,5 @@
-const Recipe = require('../../models/recipe')
-const Chef = require('../../models/chef')
+const Recipe = require('../../models/Recipe')
+const Chef = require('../../models/Chef')
 
 module.exports = {
     home(req, res) {

@@ -14,7 +14,14 @@
     </div>
 
     <div class="description">
-        <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+        <div class="show-gallery">
+            <img src="{{ files[0].src }}" alt="{{ recipe.title }}">
+            <div class="preview">
+                {% for file in files %}
+                    <img src="{{ file.src }}" alt="{{ recipe.title }}">
+                {% endfor %}
+            </div>
+        </div>
         <h1>{{ recipe.title }}</h1>
         <p>por {{ recipe.chef }}</p>
 
