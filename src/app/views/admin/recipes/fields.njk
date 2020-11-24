@@ -1,4 +1,35 @@
     <div class="item">
+        <div>Imagem da receita</div>
+        <div class="form-gallery">
+            <div id="photos-upload">
+                <input 
+                    id="photos-input"
+                    type="file"
+                    multiple 
+                    name="photos" 
+                    accept="image/*"
+                    onchange="PhotosUpload.handleFileInput(event)"
+                >
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAAZ0lEQVRoge3YsQ3AIAwAQcjSnsFTkzaC2jwofx2N0YvKtCb9W68aHBHje87MkrueiqE7GUAzgGYAzQCaATQDaAbQDKAtW9K8SZ1m3uyufwEDaP5K0AygGUAzgGYAzQCaATQDaAZIYr3RxgxO/bjFRwAAAABJRU5ErkJggg==">
+            </div>
+            <div id="photos-preview">
+                {% if files %}
+                    {% for image in files %}
+                        <div class="photo" id="{{image.id}}">
+                            <img src="{{image.src}}" alt="{{image.name}}">
+                            <i 
+                                class="material-icons"
+                                onclick="PhotosUpload.removeOldPhoto(event)"
+                            >close</i>
+                        </div>
+                    {% endfor %}
+                    <input type="hidden" name="removed_files">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
         <div>Chef</div>
                 <select name="chef_id">
                     {% if recipe.chef_id %}
@@ -7,7 +38,9 @@
                         <option disabled selected >Selecione um chefe</option>
                     {% endif %}
                     {% for chef in chefs %}
-                        <option value="{{ chef.id }}">{{ chef.name }}</option>
+                        {% if chef.id !== recipe.chef_id %}
+                            <option value="{{ chef.id }}">{{ chef.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
     </div>
@@ -16,13 +49,6 @@
         <div>Título da receita</div>
             <div>
                 <input type="text" name="title" value="{{ recipe.title }}">
-            </div>
-    </div>
-
-    <div class="item">
-        <div>Imagem da receita</div>
-            <div>
-                <input type="url" name="image" value="{{ recipe.image }}">
             </div>
     </div>
 

@@ -2,16 +2,19 @@
         <div>Chef</div>
         <div>
             <div>
-                <input type="text" name="name" value="{{ chef[0].name }}">
+                <input type="text" name="name" value="{{ chef.name }}">
             </div>
         </div>
     </div>
 
     <div class="item">
         <div>Avatar</div>
-        <div>
-            <div>
-                <input type="url" name="avatar_url" value="{{ chef[0].avatar_url }}">
-            </div>
+        <div class="avatar-upload button">
+                <input 
+                    type="file" 
+                    name="avatar" 
+                    accept="image/*"
+                >
+                <p>Enviar Avatar</p>
         </div>
     </div>

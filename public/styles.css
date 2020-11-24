@@ -9,12 +9,17 @@
 html, body, #root {
     min-height: 100vh;
     font-family: 'Roboto';
+    overflow-x: hidden;
 }
 
 body.site {
     display: grid;
     place-items: start center;
     grid-template-rows: auto 1fr auto;
+}
+
+img {
+    object-fit: cover;
 }
 
 header {
@@ -40,7 +45,7 @@ header div a {
     color: #111111;
 }
 
-input, textarea, button, select {
+input, textarea, button, select, .button {
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     padding: 0.6rem 1rem;
@@ -50,7 +55,8 @@ input, textarea, button, select {
     margin-left: 0.25rem;
 }
 
-button {
+button,
+.button {
     font-weight: bold;
     color: #FFFFFF;
     background: #6558C3;
@@ -168,11 +174,34 @@ div.noFilter {
 }
 /*=== DESCRIPTION PAGE ===*/
 
-.description img {
-    border-radius: 1rem;
+.description .show-gallery {
     margin-bottom: 3rem;
     width: 58.75rem;
+    height: 21rem;
+}
+
+.description .show-gallery > img {
+    border-radius: 1rem;
+    width: 100%;
     height: 17.5rem;
+    object-fit: cover;
+}
+
+.description .show-gallery div.preview {
+    margin-top: 0.15rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.description .show-gallery div.preview img {
+    border-radius: 0.22rem;
+    margin-left: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    opacity: 0.5;
+    cursor: pointer;
 }
 
 .description h1 {
@@ -480,6 +509,83 @@ div.item select {
     padding: 0.5rem 0.7rem;
 }
 
+/* photos upload */
+
+div.form-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 9.29rem);
+    grid-gap: 0.6rem;
+    margin-top: 0.6rem;
+}
+
+#photos-upload {
+    position: relative;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    width: 9.29rem;
+    height: 9.29rem;
+
+    border: 1px solid #DDDDDD;
+    border-radius: 0.25rem;
+}
+
+#photos-upload img {
+    width: 1.75rem;
+    height: 1.75rem;
+    object-position: 50% 50%;
+}
+
+#photos-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* photos preview */
+#photos-preview {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 0.6rem;
+}
+
+#photos-preview div {
+    width: 9.29rem;
+    height: 9.29rem;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+#photos-preview div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#photos-preview div i,
+.description .show-gallery div.preview div i {
+    opacity: 0;
+    transition: opacity 300ms;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    color: red;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-size: 250%;
+    cursor: pointer;
+}
+
+#photos-preview div i:hover,
+.description .show-gallery div.preview div i:hover {
+    opacity: 1;
+}
+
 /*=== PAGINATION ===*/
 
 .pagination {
@@ -532,4 +638,34 @@ section.chefs div.chef a {
 
 div.chefSectionSuport {
     width: 14rem;
+}
+
+/* avatar upload */
+
+div.avatar-upload {
+    margin: 0.6rem 0 0 0;
+    height: 2.4rem;
+    width: fit-content;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.avatar-upload input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+div.avatar-upload p {
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 1rem;
 }
