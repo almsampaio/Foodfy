@@ -28,10 +28,7 @@ module.exports = {
             filter, 
             page, 
             limit,
-            offset,
-            callback(recipes) {
-                
-            }
+            offset
         }
 
         let results = await Recipe.paginate(params)

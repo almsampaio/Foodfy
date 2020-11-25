@@ -22,21 +22,6 @@ module.exports = {
 
         return db.query(query)
     },
-    findBy(filter, callback) {
-        const query = `
-        SELECT recipes.*, chefs.name AS chef
-        FROM recipes
-        JOIN chefs
-        ON recipes.chef_id = chefs.id
-        WHERE recipes.title ILIKE '%${filter}%';
-        `
-
-        db.query(query, (err, results) => {
-            if (err) throw `Database error! ${err}`
-
-            callback(results.rows)
-        })
-    },
     findByChef(chef_id) {
         const query = `
             SELECT * FROM recipes
@@ -122,7 +107,7 @@ module.exports = {
         return db.query(query, [ id ])
     },
     paginate(params) {
-        const { filter, limit, offset, callback } = params
+        const { filter, limit, offset } = params
 
         let query = "",
             filterQuery = "",
