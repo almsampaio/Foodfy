@@ -15,7 +15,7 @@
 
         {% for chef in chefs %}
             <div class="chef" id="{{ chef.id }}">
-                <img src="{{ chef.avatar_url }}" alt="{{ chef.name }}">
+                <img src="{{ chef.src }}" alt="{{ chef.file_name }}">
                 <div>
                     <h3>{{ chef.name }}</h3>
                     {% if (chef.total_recipes != 1) %}

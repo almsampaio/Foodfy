@@ -204,6 +204,10 @@ div.noFilter {
     cursor: pointer;
 }
 
+.img-selected {
+    opacity: 1 !important;
+}
+
 .description h1 {
     text-align: center;
     font-size: 2.25rem;

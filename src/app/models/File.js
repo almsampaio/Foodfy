@@ -16,6 +16,15 @@ module.exports = {
 
         return db.query(query, values)
     },
+    recipeFileRelation({recipeId, fileId}) {
+        const query = `
+        INSERT INTO recipe_files (
+            recipe_id,
+            file_id
+        ) VALUES ($1, $2);
+        `
+        return db.query(query, [ recipeId, fileId ])
+    },
     find(id) {
         return db.query('SELECT * FROM files WHERE id = $1', [ id ])
     },
@@ -34,5 +43,13 @@ module.exports = {
         } catch (err) {
             throw `Database error! ${err}`
         }
+    },
+    deleteRelation(fileId) {
+        const query = `
+        DELETE FROM recipe_files
+        WHERE file_id = $1;
+        `
+
+        return db.query(query, [ fileId ])
     }
 }

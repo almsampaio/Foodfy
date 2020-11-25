@@ -5,8 +5,14 @@ const Chef = require('../../models/Chef')
 
 module.exports = {
     async index(req, res) {
-        const results = await Recipe.all()
+        let results = await Recipe.all()
         const recipes = results.rows
+
+        results = recipes.map(recipe => Recipe.findRecipeFiles(recipe.id))
+        const recipesFiles = await Promise.all(results)
+        recipesFiles.map((result, index) => {
+            recipes[index].image = `${req.protocol}://${req.headers.host}${result.rows[0].path.replace("public", "")}`
+        })
         
         return res.render("admin/recipes/index", { recipes })
     },
@@ -31,8 +37,6 @@ module.exports = {
             })
         })
 
-        console.log(files)
-
         return res.render('admin/recipes/show', { recipe, files })
     },
     async edit(req, res) {
@@ -44,7 +48,16 @@ module.exports = {
         results = await Recipe.find(id)
         const recipe = results.rows[0]
 
-        return res.render("admin/recipes/edit", { recipe, chefs })
+        results = await Recipe.findRecipeFiles(recipe.id)
+        const files = []
+        results.rows.map(file => {
+            files.push({
+                ...file,
+                src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+            })
+        })
+
+        return res.render("admin/recipes/edit", { recipe, chefs, files })
     },
     async post(req, res) {
         const keys = Object.keys(req.body)
@@ -73,10 +86,10 @@ module.exports = {
         let results = await Recipe.create(data)
         const recipeId = results.rows[0].id
 
-        const filesPromise = req.files.map(file => File.create({...file}))
+        const filesPromise = req.files.map(file => File.create({ ...file }))
         const filesIdArray = await Promise.all(filesPromise)
 
-        const recipeFilesPromise = filesIdArray.map(file => Recipe.recipeFileRelation( {recipeId, fileId: file.rows[0]['id']} ))
+        const recipeFilesPromise = filesIdArray.map(file => File.recipeFileRelation( {recipeId, fileId: file.rows[0]['id']} ))
         await Promise.all(recipeFilesPromise)
 
         return res.redirect('/admin/recipes')
@@ -91,10 +104,18 @@ module.exports = {
         }
 
         if (req.files.length !== 0) {
-            const newFilesPromise = req.files.map(file => 
-                File.create({ ...file, product_id: req.body.id }) )
+            const newFilesPromise = req.files.map(file =>
+                File.create({ ...file }))
 
-            await Promise.all(newFilesPromise)
+            let results = await Promise.all(newFilesPromise)
+            const recipeFilesRelationsPromises = results.map(result => {
+                File.recipeFileRelation({
+                    recipeId: Number(req.body.id),
+                    fileId: Number(result.rows[0].id),
+                })
+            })
+
+            await Promise.all(recipeFilesRelationsPromises)
         }
 
         if (req.body.removed_files) {
@@ -102,6 +123,8 @@ module.exports = {
             const lastIndex = removedFiles.length - 1
             removedFiles.splice(lastIndex, 1) // [1,2,3]
 
+            const removedFilesRelationPromise = removedFiles.map(id => File.deleteRelation(id))
+            await Promise.all(removedFilesRelationPromise)
             const removedFilesPromise = removedFiles.map(id => File.delete(id))
             await Promise.all(removedFilesPromise)
         }

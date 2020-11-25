@@ -1,7 +1,7 @@
 const db = require('../../config/db')
 
 module.exports = {
-    home(callback) {
+    home() {
         const query = `
         SELECT recipes.*, chefs.name AS chef
         FROM recipes
@@ -10,11 +10,7 @@ module.exports = {
         LIMIT 6;
         `
 
-        db.query(query, (err, results) => {
-            if (err) throw `Database error! ${err}`
-
-            callback(results.rows)
-        })
+        return db.query(query)
     },
     all() {
         const query = `
@@ -25,21 +21,6 @@ module.exports = {
         `
 
         return db.query(query)
-    },
-    findBy(filter, callback) {
-        const query = `
-        SELECT recipes.*, chefs.name AS chef
-        FROM recipes
-        JOIN chefs
-        ON recipes.chef_id = chefs.id
-        WHERE recipes.title ILIKE '%${filter}%';
-        `
-
-        db.query(query, (err, results) => {
-            if (err) throw `Database error! ${err}`
-
-            callback(results.rows)
-        })
     },
     findByChef(chef_id) {
         const query = `
@@ -63,9 +44,9 @@ module.exports = {
     findRecipeFiles(recipe_id) {
         const query = `
         SELECT files.*
-        FROM recipe_files
-        JOIN files
-        ON recipe_files.file_id = files.id
+        FROM files
+        JOIN recipe_files
+        ON files.id = recipe_files.file_id
         WHERE recipe_files.recipe_id = $1;
         `
 
@@ -126,7 +107,7 @@ module.exports = {
         return db.query(query, [ id ])
     },
     paginate(params) {
-        const { filter, limit, offset, callback } = params
+        const { filter, limit, offset } = params
 
         let query = "",
             filterQuery = "",
@@ -154,20 +135,6 @@ module.exports = {
             LIMIT $1 OFFSET $2;  
         `
 
-        db.query(query, [ limit, offset ], (err, results) => {
-            if (err) throw `Database error! ${err}`
-
-            callback(results.rows)
-        })
-    },
-    recipeFileRelation({recipeId, fileId}) {
-        let query = `
-        INSERT INTO recipe_files (
-            recipe_id,
-            file_id
-        ) VALUES ($1, $2);
-        `
-        return db.query(query, [ recipeId, fileId ])
+        return db.query(query, [ limit, offset ])
     }
-
 }
