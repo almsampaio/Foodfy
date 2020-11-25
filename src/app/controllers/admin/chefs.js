@@ -6,19 +6,14 @@ const Recipe = require('../../models/Recipe')
 module.exports = {
     async index(req, res) {
         let results = await Chef.all()
-        const chefsWithoutFiles = results.rows
+        const chefs = results.rows
 
-        let chefs = []
-
-        const filesPromise = chefsWithoutFiles.map(chef => File.find(chef.file_id))
+        const filesPromise = chefs.map(chef => File.find(chef.file_id))
         const filesArray = await Promise.all(filesPromise)
 
-        for (let index = 0; index < chefsWithoutFiles.length; index += 1) {
-            chefs.push({
-                ...chefsWithoutFiles[index],
-                file_name: filesArray[index].rows[0].name,
-                src: `${req.protocol}://${req.headers.host}${filesArray[index].rows[0].path.replace("public", "")}`
-            })
+        for (let index = 0; index < chefs.length; index += 1) {
+            chefs[index].file_name = filesArray[index].rows[0].name
+            chefs[index].src = `${req.protocol}://${req.headers.host}${filesArray[index].rows[0].path.replace("public", "")}`
         }
 
         return res.render('admin/chefs/index', { chefs })

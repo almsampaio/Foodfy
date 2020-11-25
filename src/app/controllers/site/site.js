@@ -1,4 +1,5 @@
 const Recipe = require('../../models/Recipe')
+const File = require('../../models/File')
 const Chef = require('../../models/Chef')
 
 module.exports = {
@@ -72,10 +73,18 @@ module.exports = {
         
         return res.render("site/description", { recipe, files })
     },
-    chefsList(req, res) {
-        Chef.all( chefs => {
-            return res.render("site/chefs", { chefs })
-        })
+    async chefsList(req, res) {
+        let results = await Chef.all()
+        const chefs = results.rows
+
+        const filesPromise = chefs.map(chef => File.find(chef.file_id))
+        const filesArray = await Promise.all(filesPromise)
+
+        for (let index = 0; index < chefs.length; index += 1) {
+            chefs[index].file_name = filesArray[index].rows[0].name
+            chefs[index].src = `${req.protocol}://${req.headers.host}${filesArray[index].rows[0].path.replace("public", "")}`
+        }
         
+        return res.render("site/chefs", { chefs })
     }
 }
