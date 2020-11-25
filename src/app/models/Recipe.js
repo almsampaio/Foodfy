@@ -159,15 +159,5 @@ module.exports = {
 
             callback(results.rows)
         })
-    },
-    recipeFileRelation({recipeId, fileId}) {
-        let query = `
-        INSERT INTO recipe_files (
-            recipe_id,
-            file_id
-        ) VALUES ($1, $2);
-        `
-        return db.query(query, [ recipeId, fileId ])
     }
-
 }

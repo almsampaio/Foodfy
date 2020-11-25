@@ -89,7 +89,7 @@ module.exports = {
         const filesPromise = req.files.map(file => File.create({ ...file }))
         const filesIdArray = await Promise.all(filesPromise)
 
-        const recipeFilesPromise = filesIdArray.map(file => Recipe.recipeFileRelation( {recipeId, fileId: file.rows[0]['id']} ))
+        const recipeFilesPromise = filesIdArray.map(file => File.recipeFileRelation( {recipeId, fileId: file.rows[0]['id']} ))
         await Promise.all(recipeFilesPromise)
 
         return res.redirect('/admin/recipes')
@@ -109,7 +109,7 @@ module.exports = {
 
             let results = await Promise.all(newFilesPromise)
             const recipeFilesRelationsPromises = results.map(result => {
-                Recipe.recipeFileRelation({
+                File.recipeFileRelation({
                     recipeId: Number(req.body.id),
                     fileId: Number(result.rows[0].id),
                 })
@@ -123,6 +123,8 @@ module.exports = {
             const lastIndex = removedFiles.length - 1
             removedFiles.splice(lastIndex, 1) // [1,2,3]
 
+            const removedFilesRelationPromise = removedFiles.map(id => File.deleteRelation(id))
+            await Promise.all(removedFilesRelationPromise)
             const removedFilesPromise = removedFiles.map(id => File.delete(id))
             await Promise.all(removedFilesPromise)
         }
