@@ -266,3 +266,26 @@ const PhotosUpload = {
         photoDiv.remove()
     }
 }
+
+/*=== SHOW IMAGE .PREVIEW ===*/
+const preview =  document.querySelector('.preview')
+const showGallery = document.querySelector('.show-gallery')
+
+function showImage(event) {
+    for (let index = 0; index < preview.children.length; index += 1) {
+        if (preview.children[index].classList.contains('img-selected')) {
+            preview.children[index].classList.remove('img-selected')
+        }
+    }
+
+    event.target.classList.add('img-selected')
+    const clone = event.target.cloneNode(true)
+    showGallery.children[0].replaceWith(clone)
+}
+
+if (preview) {
+    preview.children[0].classList.add('img-selected')
+    for (let index = 0; index < preview.children.length; index += 1) {
+        preview.children[index].addEventListener('click', showImage)
+    }
+}
