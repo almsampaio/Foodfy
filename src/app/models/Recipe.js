@@ -1,7 +1,7 @@
 const db = require('../../config/db')
 
 module.exports = {
-    home(callback) {
+    home() {
         const query = `
         SELECT recipes.*, chefs.name AS chef
         FROM recipes
@@ -10,11 +10,7 @@ module.exports = {
         LIMIT 6;
         `
 
-        db.query(query, (err, results) => {
-            if (err) throw `Database error! ${err}`
-
-            callback(results.rows)
-        })
+        return db.query(query)
     },
     all() {
         const query = `
@@ -154,10 +150,6 @@ module.exports = {
             LIMIT $1 OFFSET $2;  
         `
 
-        db.query(query, [ limit, offset ], (err, results) => {
-            if (err) throw `Database error! ${err}`
-
-            callback(results.rows)
-        })
+        return db.query(query, [ limit, offset ])
     }
 }
