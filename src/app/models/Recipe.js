@@ -17,7 +17,8 @@ module.exports = {
         SELECT recipes.*, chefs.name AS chef
         FROM recipes
         JOIN chefs
-        ON recipes.chef_id = chefs.id;
+        ON recipes.chef_id = chefs.id
+        ORDER BY recipes.created_at DESC;
         `
 
         return db.query(query)
@@ -25,7 +26,8 @@ module.exports = {
     findByChef(chef_id) {
         const query = `
             SELECT * FROM recipes
-            WHERE chef_id = $1;
+            WHERE chef_id = $1
+            ORDER BY created_at DESC;
         `
 
         return db.query(query, [ chef_id ])
@@ -132,7 +134,8 @@ module.exports = {
             JOIN chefs ON chefs.id = recipes.chef_id
             ${filterQuery}
             GROUP BY recipes.id, chefs.id
-            LIMIT $1 OFFSET $2;  
+            ORDER BY recipes.updated_at DESC
+            LIMIT $1 OFFSET $2;
         `
 
         return db.query(query, [ limit, offset ])
